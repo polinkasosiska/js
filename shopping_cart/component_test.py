@@ -1,6 +1,5 @@
 import pytest
 from flask import Flask
-from list_products.list_products import app
 import asyncio
 import requests
 
