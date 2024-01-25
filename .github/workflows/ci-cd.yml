@@ -1,6 +1,8 @@
 name: CI/CD pipline
 on:
   push:
+  on:
+    workflow_dispatch:
     branches: ["master"]
   pull_request:
     branches: ["master"] 
