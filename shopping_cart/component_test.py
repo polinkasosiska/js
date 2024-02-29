@@ -4,7 +4,7 @@ import asyncio
 import requests
 
 base_url = "http://localhost:8001/"
-
+# интеграционный тест?)
 
 def test_get_card():
     response = requests.get(f"{base_url}cart")
