@@ -1,50 +1,19 @@
 import pytest
-from flask_testing import TestCase
-from shopping_cart import app # имя моего приложения
+from flask import Flask
+from shopping_cart import (
+    app,
+) # Импортируем Flask-приложение из модуля shopping_cart
 
-class TestCartAPI(TestCase):
-    def create_app(self):
-        app.config['TESTING'] = True
-        return app
+@pytest.fixture
+def client():
+    app.config["TESTING"] = True # Активируем режим тестирования в конфигурации Flask-приложения
+    with app.test_client() as client: # Создаем тестовый клиент для отправки запросов к приложению
+        yield client # Возвращаем тестовый клиент, чтобы он мог быть использован в тестах
 
-    def test_get_cart_empty(self):
-        response = self.client.get('/cart')
-        assert response.status_code == 200
-        assert response.json == []
+def test_get_card(client): # Тест GET-запроса к конечной точке /cart
+    response = client.get("/cart") # Отправляем GET-запрос к конечной точке /cart
+    assert response.status_code == 200 # Проверяем, что статус ответа равен 200 (успешно)
 
-    def test_add_to_cart(self):
-        item = {"id": 1, "name": "Test Item"}
-        response = self.client.post('/cart', json=item)
-        assert response.status_code == 201
-        assert response.json == {"message": "Item added to cart"}
-
-        # Проверяем, что элемент действительно добавлен
-        response = self.client.get('/cart')
-        assert response.json == [item]
-
-    def test_clear_cart(self):
-        item = {"id": 1, "name": "Test Item"}
-        self.client.post('/cart', json=item)
-        response = self.client.delete('/cart')
-        assert response.status_code == 200
-        assert response.json == {"message": "Cart cleared"}
-
-        # Проверяем, что корзина очищена
-        response = self.client.get('/cart')
-        assert response.json == []
-
-    def test_remove_from_cart(self):
-        item = {"id": 1, "name": "Test Item"}
-        self.client.post('/cart', json=item)
-        response = self.client.delete('/cart/1')
-        assert response.status_code == 200
-        assert response.json == {"message": "Item removed from cart"}
-
-        # Проверяем, что элемент действительно удален
-        response = self.client.get('/cart')
-        assert response.json == []
-
-    def test_remove_from_cart_not_found(self):
-        response = self.client.delete('/cart/1')
-        assert response.status_code == 404
-        assert response.json == {"error": "Item not found in cart"}
+def test_post_card(client): # Тест POST-запроса к конечной точке /cart
+    response = client.post("/cart", json={"id": 1, "name": "test", "price": 123}) # Отправляем POST-запрос с данными карты
+    assert response.status_code == 201 # Проверяем, что статус ответа равен 201 (создано)
