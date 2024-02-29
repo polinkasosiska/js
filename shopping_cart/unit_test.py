@@ -2,7 +2,7 @@ import pytest
 from flask import Flask
 from shopping_cart import (
     app,
-)  # Замените на имя вашего файла с приложением
+)  # интеграционный тест, тк он проверяет взаимодействие между различными частями приложения Flask, включая обработку HTTP-запросов и ответов.
 
 
 @pytest.fixture
