@@ -6,5 +6,6 @@ kzkkzk алалалалала
 лялля
 еще лялляляля
 лЛллл
+kKk
 
 ![image](https://github.com/polinkasosiska/jstore_microservice/assets/74186092/09f4012b-6e9b-46ad-bda3-b40371aab9da)
